@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Pokemon from '../Pokemon'
 
 class App extends Component {
 	render() {
@@ -29,6 +30,7 @@ class App extends Component {
 			.then(result => result.json())
 			.then(data => {
 				console.log(data)
+				const pokemon = new Pokemon(data);
 			})
 			.catch(error => {
 				console.log(error)
