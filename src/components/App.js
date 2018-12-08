@@ -23,6 +23,18 @@ class App extends Component {
 	componentDidMount = () => {
 		this.getPokemonList()
 	}
+
+	findPokemon = (id) => {
+		fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`)
+			.then(result => result.json())
+			.then(data => {
+				console.log(data)
+			})
+			.catch(error => {
+				console.log(error)
+			})
+	};
+
 		return (
 			<div className="App">
 				<header className="App-header">
