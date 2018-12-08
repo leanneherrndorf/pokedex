@@ -6,7 +6,7 @@ import '../style/App.css';
 
 class App extends Component {
 	getPokemonList = () => {
-		fetch(`http://pokeapi.salestock.net/api/v2/pokedex/2`)
+		fetch(`https://pokeapi.co/api/v2/pokedex/2/`)
 			.then(result => result.json())
 			.then(data => {
 				this.setState({ items: data.pokemon_entries})
