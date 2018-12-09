@@ -2,15 +2,17 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 
 const CardWrapper = styled.div`
-	display: inline-block;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
 	position: fixed;
+	top: 60px;
 	right: 0;
 	margin: 20px 40px;
 	padding: 30px;
-	text-align: center;
 	border: 1px solid grey;
 	background: #fdf8cf91;
-	max-width: 300px;
+	width: 300px;
 
 	h2 {
 		margin: 0;
@@ -19,40 +21,65 @@ const CardWrapper = styled.div`
 	img {
 		width: 200px;
 	}
-	
-	table {
-		width: 100%;
-	}
+`;
 
-	td:first-child {
-		text-align: left;
-		font-weight: 600;
+const Grid = styled.div`
+	width: 250px;
+`;
+
+const Row = styled.div`
+	margin: 10px 0px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	font-weight: ${props => props.theme.fontweight};
+`;
+
+const Col = styled.div`
+	text-align: ${props => props.theme.alignment};
+	font-weight: ${props => props.theme.fontweight};
+`;
+
+Row.defaultProps = {
+	theme: {
+		fontweight: "600"
 	}
-`
+};
+
+Col.defaultProps = {
+	theme: {
+		alignment: "left",
+		fontweight: "600"
+	}
+};
+
+const detailRow = {
+	fontweight: "400"
+};
+const right = {
+	alignment: "right",
+	fontweight: "400"
+};
 
 class Card extends Component {
 	render() {
 		return <CardWrapper>
 			<h2>{this.props.pokemon.name}</h2>
 			<img alt= "" src={this.props.pokemon.sprite} />
-			<table>
-				<tbody>
-					<tr>
-						<td>Base Experience: </td>
-						<td>{this.props.pokemon.baseExperience}</td>
-					</tr>
-					<tr>
-						<td>Height: </td>
-						<td>{this.props.pokemon.height}</td>
-					</tr>
-					<tr>
-						<td className="abilities">Abilities</td>
-						{ Object.keys(this.props.pokemon.abilities).map((key) =>
-							<td key={key}>+ {this.props.pokemon.abilities[key].ability.name}</td>
-						)}
-					</tr>
-				</tbody>
-			</table>
+			<Grid>
+				<Row>
+					<Col>Base Experience: </Col>
+					<Col theme={right}>{this.props.pokemon.baseExperience}</Col>
+				</Row>
+				<Row>
+					<Col>Height: </Col>
+					<Col theme={right}>{this.props.pokemon.height}</Col>
+				</Row>
+				<Row>Abilities</Row>
+				{ this.props.pokemon.abilities.map((value, key) =>
+					<Row theme={detailRow} key={key}>+ {value.ability.name}</Row>
+				)}
+			</Grid>
 		</CardWrapper>;
 	}
 }
