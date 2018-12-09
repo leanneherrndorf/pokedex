@@ -10,11 +10,13 @@ const ListWrapper = styled.div`
 
 class List extends Component {
 	render() {
-		return <ListWrapper>
-			{ this.props.items.map((value, key) =>
-				<Card key={key} item={value} findPokemon={this.props.findPokemon}></Card>
-			)}
-			</ListWrapper>;
+			return (
+				<ListWrapper>
+					{this.props.items && this.props.items.map((value, key) =>
+						<Card key={key} item={value} findPokemon={this.props.findPokemon}></Card>
+					)}
+				</ListWrapper>
+			)
 	}
 }
 
