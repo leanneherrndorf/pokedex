@@ -4,8 +4,9 @@ import styled from 'styled-components';
 
 const ListWrapper = styled.div`
 	width: 40%;
-	display: inline-block;
-`
+	display: flex;
+	flex-direction: column;
+`;
 
 class List extends Component {
 	render() {
