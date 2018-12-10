@@ -24,7 +24,8 @@ const AppWrapper = styled.div`
 
 
 const mapStateToProps = state => ({
-	items: state.items.pokedex
+	items: state.items.pokedex,
+	isFetching: state.items.isFetching
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -60,12 +61,13 @@ class App extends Component {
 
 
   render() {
-  	const { items } = this.props;
+  	const { items, isFetching } = this.props;
 		return (
 			<AppWrapper>
 				<GlobalStyle/>
 				<h1>Pokemon Pokedex</h1>
-				<List items={items} findPokemon={this.findPokemon}/>
+				{isFetching && <div>Loading...</div>}
+				{items.length > 0 && <List items={items} findPokemon={this.findPokemon}/>}
 				{this.state.detailView && <PokeData pokemon={this.state.pokemon}/>}
 			</AppWrapper>
 		);

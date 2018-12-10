@@ -1,6 +1,5 @@
-export const FETCH_BEGIN = 'FETCH_BEGIN';
+export const REQUEST_ITEMS = 'REQUEST_ITEMS';
 export const RECEIVE_ITEMS = 'RECEIVE_ITEMS';
-export const FETCH_FAILURE = 'FETCH_FAILURE';
 
 const receivePokedex = (data) => {
 	return {
@@ -10,8 +9,15 @@ const receivePokedex = (data) => {
 	}
 };
 
+const requestItems = () => {
+	return {
+		type: REQUEST_ITEMS
+	}
+}
+
 export const fetchPokedex = () => {
 	return dispatch => {
+		dispatch(requestItems());
 		return fetch(`https://pokeapi.co/api/v2/pokedex/2/`)
 			.then(response => response.json())
 			.then(data => dispatch(receivePokedex(data)))

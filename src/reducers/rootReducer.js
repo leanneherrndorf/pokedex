@@ -1,22 +1,24 @@
 import { combineReducers } from 'redux';
 import {
-	FETCH_BEGIN,
-	RECEIVE_ITEMS,
-	FETCH_FAILURE
+	RECEIVE_ITEMS, REQUEST_ITEMS
 } from '../actions/actions'
 
 function items(
 	state= {
-		pokedex: []
+		pokedex: [],
+		isFetching: false
 	}, action) {
 	switch (action.type) {
-	case RECEIVE_ITEMS:
-		return Object.assign({}, state, {
-			isFetching: false,
-			didInvalidate: false,
-			pokedex: action.items,
-			lastUpdated: action.receivedAt
-		});
+		case REQUEST_ITEMS:
+			return Object.assign({}, state, {
+				isFetching: true
+			});
+		case RECEIVE_ITEMS:
+			return Object.assign({}, state, {
+				isFetching: false,
+				pokedex: action.items,
+				lastUpdated: action.receivedAt
+			});
 		default:
 			return state
 	}
