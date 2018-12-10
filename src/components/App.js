@@ -3,6 +3,8 @@ import List from './List';
 import Pokemon from '../Pokemon';
 import PokeData from './PokeData';
 import styled, { createGlobalStyle } from 'styled-components';
+import { connect } from 'react-redux';
+import { fetchPokedex } from '../actions/actions';
 
 const GlobalStyle = createGlobalStyle`
 	body {
@@ -20,29 +22,27 @@ const AppWrapper = styled.div`
 	margin: 20px;
 `;
 
-class App extends Component {
-	getPokemonList = () => {
-		fetch(`https://pokeapi.co/api/v2/pokedex/2/`)
-			.then(result => result.json())
-			.then(data => {
-				this.setState({ items: data.pokemon_entries})
-			})
-			.catch(error => {
-				console.log(error)
-			})
-	};
 
+const mapStateToProps = state => ({
+	items: state.items.pokedex,
+	isFetching: state.items.isFetching
+});
+
+const mapDispatchToProps = dispatch => ({
+	fetchPokedex: () => dispatch(fetchPokedex())
+});
+
+
+class App extends Component {
 	constructor() {
 		super();
 		this.state = {
-			items: [],
-			pokemon: '',
 			detailView: false
 		};
 	};
 
 	componentDidMount = () => {
-		this.getPokemonList()
+		this.props.fetchPokedex()
 	};
 
 	findPokemon = (id) => {
@@ -61,15 +61,17 @@ class App extends Component {
 
 
   render() {
+  	const { items, isFetching } = this.props;
 		return (
 			<AppWrapper>
 				<GlobalStyle/>
 				<h1>Pokemon Pokedex</h1>
-				<List items={this.state.items} findPokemon={this.findPokemon}/>
+				{isFetching && <div>Loading...</div>}
+				{items.length > 0 && <List items={items} findPokemon={this.findPokemon}/>}
 				{this.state.detailView && <PokeData pokemon={this.state.pokemon}/>}
 			</AppWrapper>
 		);
 	}
 }
 
-export default App;
+export default connect(mapStateToProps, mapDispatchToProps)(App);
